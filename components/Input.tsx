@@ -5,7 +5,11 @@ import {
   UsersIcon,
 } from "@heroicons/react/solid";
 
-export default function Input() {
+interface InputProps{
+  buttonEnabled: boolean
+}
+
+export default function Input(props : InputProps) {
   function submitResults(event: any) {
     let inputValue = event.target.participants.value;
     let participants = inputValue.split(",");
@@ -36,7 +40,9 @@ export default function Input() {
               />
             </div>
             <button
+              disabled={!props.buttonEnabled}
               type="submit"
+              style={!props.buttonEnabled ? {backgroundColor: 'gray'} : {}}
               className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
             >
               <SearchIcon
