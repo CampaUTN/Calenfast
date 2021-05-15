@@ -15,12 +15,27 @@ import {
   XIcon,
 } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
+import { sign } from 'crypto'
+import { useSession, signIn, signOut } from 'next-auth/client'
 
 function classNames(...classes : any) {
     return classes.filter(Boolean).join(' ')
   }
 
 export default function Header() {
+    const [session] = useSession();
+
+    const handleSignin = (e) => {
+      e.preventDefault()
+      console.log(e)  
+      signIn()
+    
+    }
+    const handleSignout = (e) => {
+      e.preventDefault()
+      signOut()
+    }    
+
     return (
         <Popover className="relative bg-white">
       {({ open }) => (
@@ -46,11 +61,16 @@ export default function Header() {
                   <MenuIcon className="h-6 w-6" aria-hidden="true" />
                 </Popover.Button>
               </div>
+
               
               <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                <a href="#" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
+                {session && <p className="mr-3">{session?.user?.name}</p>}
+                {!session && <a href="#"  onClick={handleSignin} className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
                   Sign in
-                </a>
+                </a>}
+                {session && <a href="#"  onClick={handleSignout} className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
+                  Sign Out
+                </a>}
               </div>
             </div>
           </div>
