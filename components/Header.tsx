@@ -1,5 +1,5 @@
-import { Fragment } from 'react'
-import { Popover, Transition } from '@headlessui/react'
+import { Fragment } from "react";
+import { Popover, Transition } from "@headlessui/react";
 import {
   BookmarkAltIcon,
   CalendarIcon,
@@ -13,31 +13,30 @@ import {
   SupportIcon,
   ViewGridIcon,
   XIcon,
-} from '@heroicons/react/outline'
-import { ChevronDownIcon } from '@heroicons/react/solid'
-import { sign } from 'crypto'
-import { useSession, signIn, signOut } from 'next-auth/client'
+} from "@heroicons/react/outline";
+import { ChevronDownIcon } from "@heroicons/react/solid";
+import { sign } from "crypto";
+import { useSession, signIn, signOut } from "next-auth/client";
 
-function classNames(...classes : any) {
-    return classes.filter(Boolean).join(' ')
-  }
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export default function Header() {
-    const [session] = useSession();
+  const [session] = useSession();
 
-    const handleSignin = (e) => {
-      e.preventDefault()
-      console.log(e)  
-      signIn('google')
-    
-    }
-    const handleSignout = (e) => {
-      e.preventDefault()
-      signOut('google')
-    }    
+  const handleSignin = (e) => {
+    e.preventDefault();
+    console.log(e);
+    signIn();
+  };
+  const handleSignout = (e) => {
+    e.preventDefault();
+    signOut();
+  };
 
-    return (
-        <Popover className="relative bg-white">
+  return (
+    <Popover className="relative bg-white">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -46,12 +45,16 @@ export default function Header() {
                 <a href="#">
                   <span className="sr-only">Workflow</span>
                   <div className="flex flex-row items-center">
-                  <img
-                    className="h-10 w-auto sm:h-10"
-                    src="/logo.png"
-                    alt=""
-                  />
-                  <span className="text-xl font-semibold pl-4">Calenfast</span>
+                    <img
+                      className="h-10 w-auto sm:h-10"
+                      src="/logo.png"
+                      alt=""
+                    />
+                    <i>
+                      <span className="text-3xl text-blue-500	font-semibold pl-4">
+                        CalenFast
+                      </span>
+                    </i>
                   </div>
                 </a>
               </div>
@@ -62,15 +65,26 @@ export default function Header() {
                 </Popover.Button>
               </div>
 
-              
               <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
                 {session && <p className="mr-3">{session?.user?.name}</p>}
-                {!session && <a href="#"  onClick={handleSignin} className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
-                  Sign in
-                </a>}
-                {session && <a href="#"  onClick={handleSignout} className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
-                  Sign Out
-                </a>}
+                {!session && (
+                  <a
+                    href="#"
+                    onClick={handleSignin}
+                    className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    Sign in
+                  </a>
+                )}
+                {session && (
+                  <a
+                    href="#"
+                    onClick={handleSignout}
+                    className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    Sign Out
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -108,16 +122,17 @@ export default function Header() {
                     </div>
                   </div>
                   <div className="mt-6">
-                    <nav className="grid gap-y-8">
-                      
-                    </nav>
+                    <nav className="grid gap-y-8"></nav>
                   </div>
                 </div>
                 <div className="py-6 px-5 space-y-6">
                   <div>
                     <p className="mt-6 text-center text-base font-medium text-gray-500">
-                      Existing customer?{' '}
-                      <a href="#" className="text-indigo-600 hover:text-indigo-500">
+                      Existing customer?{" "}
+                      <a
+                        href="#"
+                        className="text-indigo-600 hover:text-indigo-500"
+                      >
                         Sign in
                       </a>
                     </p>
@@ -129,5 +144,5 @@ export default function Header() {
         </>
       )}
     </Popover>
-    )
+  );
 }
