@@ -28,12 +28,12 @@ export default function Header() {
     const handleSignin = (e) => {
       e.preventDefault()
       console.log(e)  
-      signIn()
+      signIn('google')
     
     }
     const handleSignout = (e) => {
       e.preventDefault()
-      signOut()
+      signOut('google')
     }    
 
     return (
