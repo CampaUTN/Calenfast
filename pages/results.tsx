@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
 import Input from '../components/Input'
-import ResultsList from '../components/ResultsList';
+import ResultsList from '../components/ResultsList'
+import MeetDurationSelect from '../components/MeetDurationSelect';
 
   const positions = [
   {
@@ -21,13 +22,16 @@ import ResultsList from '../components/ResultsList';
   },
 ]
 
-const ResultsPage = () => ( 
-  <Layout title="Possible Meetings">
-    
-  <Input/>
-  <ResultsList positions={positions}/>
-    
-  </Layout>
-)
+const ResultsPage = () => {
+  return(
+    <Layout title="Possible Meetings">
+      <Input/>
+      <MeetDurationSelect></MeetDurationSelect>
+      <ResultsList positions={positions}/>
+    </Layout>
+  )
+}
+  
+
 
 export default ResultsPage
