@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 const { google } = require("googleapis");
 import { getToken } from "next-auth/jwt";
+const availability = require('timeslot-availability');
+const moment = require('moment-timezone');
 
 /* {"participants":["aa","bb","cc"],
 "rangeState":{"from":"2021-05-11T15:00:00.000Z","to":"2021-05-25T15:00:00.000Z"},
@@ -51,16 +53,36 @@ const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
 
     const calendar = google.calendar({ version: "v3", auth });
 
+    let start = _req.body.rangeState.from;
+    let end = _req.body.rangeState.to;
+    const timespan = _req.body.duration.value;
+
     const response = await calendar.freebusy.query({
       requestBody: {
-        timeMin: _req.body.rangeState.from,
-        timeMax: _req.body.rangeState.to,
-        timeZone: "-03:00",
+        timeMin: start,
+        timeMax: end,
         items: participants,
-      },
+      }
     });
 
-    res.status(200).json(positions);
+    let busy: any = [];
+
+    Object.values(response.data.calendars).forEach(
+      (mail: any) => {
+        busy = busy.concat(mail.busy);
+      }
+    );
+
+    console.log(busy);
+
+    const bookable = availability(start, end, timespan, busy);
+
+    bookable.forEach((date: any) => {
+      date.start = moment(date.start).tz('America/Argentina/Buenos_Aires').format('YYYY-MM-DDTHH:mm');
+      date.end = moment(date.end).tz('America/Argentina/Buenos_Aires').format('YYYY-MM-DDTHH:mm');
+    });
+
+    res.status(200).json(bookable);
   } catch (err) {
     res.status(500).json({ statusCode: 500, message: err.message });
   }
