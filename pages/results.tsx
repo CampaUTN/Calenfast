@@ -3,9 +3,10 @@ import Layout from "../components/Layout";
 import Input from "../components/Input";
 import ResultsList from "../components/ResultsList";
 import DayRangePicker from "../components/DayRangePicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MeetDurationSelect from "../components/MeetDurationSelect";
 import axios from "axios";
+import { getSession, signIn } from "next-auth/client";
 
 interface Range {
   from: any;
@@ -13,6 +14,15 @@ interface Range {
 }
 
 const ResultsPage = () => {
+  const session: any = getSession();
+  useEffect(() => {
+    session.then((data: any) => {
+      if(!data) {
+        signIn('google');
+      }
+    })
+  }, [session])
+
   const [timeslots, setTimeslots] = useState(null);
   const [participants, setParticipants] = useState(null);
   const [buttonEnabled, setButtonEnabled] = useState(false);
