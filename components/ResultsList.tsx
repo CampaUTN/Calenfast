@@ -3,7 +3,31 @@ import * as React from "react";
 import { CalendarIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Input from "../components/Input";
 
-const ResultsList = ({ positions }: any) => (
+function createEvent(position: any, users: any) {
+  console.log(position);
+  //const calURL = `https://calendar.google.com/calendar/u/0/r/eventedit`;
+  //calendar.google.com/calendar/u/0/r/eventedit?text=B.B.+King&dates=20090522T193000/20090524T003000&details&sprop=website:www.mountainwinery.com&location=The+Mountain+Winery,+14831+Pierce+Road,+Saratoga,+CA+95070&sf=true
+  https: users = users.join("&add=");
+  const fromDate = new Date(position.start).toISOString();
+  const toDate = new Date(position.end).toISOString();
+  const calURL = `https://calendar.google.com/calendar/u/0/r/eventedit?text=Setup+Title&dates=${fromDate
+    .split("-")
+    .join("")
+    .split(":")
+    .join("")
+    .split(".")
+    .join("")}/${toDate
+    .split("-")
+    .join("")
+    .split(":")
+    .join("")
+    .split(".")
+    .join("")}&add=${users}&details=Event+created+with+CalenFast...`;
+  window.open(calURL);
+  // date2.split('-').join('').split(':').join('').split('.').join('')
+}
+
+const ResultsList = ({ positions, users }: any) => (
   <div className="max-w-7xl w-1/2 mx-auto mt-8 px-4 sm:px-6 lg:px-8">
     <div className="max-w-3xl mx-auto">
       {positions && (
@@ -27,7 +51,13 @@ const ResultsList = ({ positions }: any) => (
                             aria-hidden="true"
                           />
                           <p className="d-block">
-                            {position.date} at <b>{position.time}</b>
+                            On {new Date(position.start).toLocaleDateString()}{" "}
+                            From{" "}
+                            <b>
+                              {new Date(position.start).toLocaleTimeString()} to{" "}
+                            </b>
+                            To{" "}
+                            <b>{new Date(position.end).toLocaleTimeString()}</b>
                           </p>
                         </div>
                       </div>
@@ -36,6 +66,7 @@ const ResultsList = ({ positions }: any) => (
                   <div className="ml-5 flex-shrink-0">
                     <button
                       type="button"
+                      onClick={() => createEvent(position, users)}
                       className="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       Create

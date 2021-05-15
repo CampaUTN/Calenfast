@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "dotenv": "^9.0.2",
     "googleapis": "^73.0.0",
+    "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "next": "latest",
     "next-auth": "^3.23.0",
