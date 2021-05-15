@@ -6,12 +6,15 @@ import Input from "../components/Input";
 const ResultsList = ({ positions }: any) => (
   <div className="max-w-7xl w-1/2 mx-auto mt-8 px-4 sm:px-6 lg:px-8">
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl mb-3 font-bold leading-tight text-gray-900">
-        Possible Time Slots
-      </h1>
+      {positions && (
+        <h1 className="text-2xl mb-3 font-bold leading-tight text-gray-900">
+          Possible Time Slots
+        </h1>
+      )}
+
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
         <ul className="divide-y divide-gray-200">
-          {positions.map((position: any) => (
+          {positions?.map((position: any) => (
             <li key={position.id}>
               <a href="#" className="block hover:bg-gray-50">
                 <div className="px-4 py-4 flex items-center sm:px-6">
